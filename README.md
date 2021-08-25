@@ -33,7 +33,7 @@ input_number:
     max: 14
     step: 1
     unit_of_measurement: times per week
-  # Tracks the area of the room. Used to determine how effective a cleaning cycle was. Maximum size can be adjusted. I chose 20m² as my upper limit since my largest measured area is 19m²
+  # Tracks the area of the room. Used to determine how effective a cleaning cycle was. Maximum size can be adjusted. I chose 20m² as my upper limit since my largest measured area is 19m² This value will be set by the vacuum the first time it cleans the room.
   debris_kitchen_bar_area:
     name: "[Debris] Kitchen Bar: Area"
     icon: mdi:move-resize
@@ -92,6 +92,8 @@ sensor:
       - input_number.debris_dining_room_level
 ```
 
+Once you've added all the entities, go into lovelace dashboard and set the desired frequency for each room. All of the other entities will update themselves automatically with the node-red flows.
+
 ### Helper Entities 
 These are entities that are likely unnecessary, but I use regularly and are referenced in the node-red flows. You can just as easily remove them from the flows.
 
@@ -110,6 +112,7 @@ input_boolean:
 If you want to jump right in, import `All-necessary-flows.json` into your node-red. Pretty much every single node has comments written, and there are some comment nodes to describe the purpose of each group. For a more detailed setup, continue reading and you can important each group separately.
 
 ### Setting up Room Segments 
+
 
 This is the hardest part of the setup. Assuming you have the Xaiomi integration working and your rooms divided as you want in the Mi Home app, you now need to determine the values for each room segment. The best way I've found to do this is to have a short flow in node red that attempts to clean a room. The Mi Home app will highlight the room is it cleaning in color while the rest of the map is greyed out. If the map is entirely greyed out, the room segment is not used.
 
@@ -172,7 +175,7 @@ Import `6-Error-Handler.json` into node-red. Connect the `Error-Handler link-out
 
 This node handles the edge cases of vacuuming. Particularly, if the area cleaned was greater than 100% or less than 25%. If the cleaned area was less than 25%, the previous flow set the debris level to 0.00 to avoid repeated cleaning attempts. The error handler then waits for you to arrive/leave home, at which point this value is reset as it believes you have had a chance to fix the issue. If the area cleaned was greater than 100% but less than 125%, it automatically increases the known size of the room. If it is greater than 125%, it will ask you if you want to increase the size of the room.
 
-The notification subflows are designed for android. They are based on [INSERT LINK HERE], slightly modified. 
+The notification subflows are designed for android. They are based on [This subflow](https://zachowj.github.io/node-red-contrib-home-assistant-websocket/cookbook/actionable-notifications-subflow-for-android.html#demo-flow]), slightly modified. 
 
 ### Maintenance Logging
 
