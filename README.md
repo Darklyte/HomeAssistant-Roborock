@@ -176,4 +176,5 @@ The notification subflows are designed for android. They are based on [INSERT LI
 
 ### Maintenance Logging
 
-Import `7-Reset-Counters.json`
+Import `7-Reset-Counters.json`. No modifications are necessary unless you use an iPhone (sorry, you're on your own with that)
+
